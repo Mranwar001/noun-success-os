@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Timer, CheckCircle, ChevronRight, AlertCircle, Trophy, Loader2 } from "lucide-react";
+import { Timer, CheckCircle, ChevronRight, AlertCircle, Trophy, Loader2, BookOpen } from "lucide-react";
+
 
 export default function ExamsPage() {
   const [exams, setExams] = useState<any[]>([]);
