@@ -22,8 +22,22 @@ export async function POST(req: Request) {
         }
 
         const buffer = Buffer.from(await file.arrayBuffer());
-        const data = await pdf(buffer);
+        console.log("PDF Buffer size:", buffer.length);
+        
+        let data;
+        try {
+            data = await pdf(buffer);
+        } catch (pdfError: any) {
+            console.error("PDF Parsing Error:", pdfError);
+            return NextResponse.json({ error: "Failed to read PDF content. Is it password protected?" }, { status: 422 });
+        }
+
         const text = data.text;
+        console.log("Extracted text length:", text.length);
+
+        if (text.trim().length === 0) {
+            return NextResponse.json({ error: "The PDF appears to be empty or image-based (OCR required)." }, { status: 422 });
+        }
 
         if (!process.env.AI_API_KEY) {
             return NextResponse.json({ error: "AI API Key not configured" }, { status: 500 });
