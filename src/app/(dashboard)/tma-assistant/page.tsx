@@ -1,14 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { Sparkles, Languages, Copy, FileSearch, AlertCircle } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
-export default function TmaClient() {
+function TmaContent() {
+    const searchParams = useSearchParams();
     const [question, setQuestion] = useState("");
     const [hausaToggle, setHausaToggle] = useState(false);
     const [analyzing, setAnalyzing] = useState(false);
     const [result, setResult] = useState<any>(null);
     const [error, setError] = useState<string | null>(null);
+    
+    useEffect(() => {
+        const course = searchParams.get("course");
+        if (course) {
+            setQuestion(`Help me analyze the TMA for ${course}: `);
+        }
+    }, [searchParams]);
 
     const handleAnalyze = async () => {
         if (!question) return;
@@ -137,5 +146,13 @@ export default function TmaClient() {
                 </div>
             )}
         </div>
+    );
+}
+
+export default function TmaClient() {
+    return (
+        <Suspense fallback={<div className="flex items-center justify-center p-12 text-gray-500">Loading Assistant...</div>}>
+            <TmaContent />
+        </Suspense>
     );
 }

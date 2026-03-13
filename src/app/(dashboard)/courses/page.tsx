@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Plus, Trash2, Calendar, Book, Loader2 } from "lucide-react";
+import Link from "next/link";
 
 export default function CoursesClient() {
   const [courses, setCourses] = useState<any[]>([]);
@@ -114,7 +115,12 @@ export default function CoursesClient() {
                 </div>
               </div>
               <div className="pt-4 border-t dark:border-gray-800 flex justify-end items-center">
-                <button className="text-xs font-bold text-primary-600 dark:text-primary-400 hover:underline uppercase tracking-widest">View TMAs</button>
+                <Link 
+                  href={`/tma-assistant?course=${course.course_code}`}
+                  className="text-xs font-bold text-primary-600 dark:text-primary-400 hover:underline uppercase tracking-widest"
+                >
+                  View TMAs
+                </Link>
               </div>
             </div>
           ))}
