@@ -7,7 +7,7 @@ const genAI = new GoogleGenerativeAI(process.env.AI_API_KEY || "");
 export async function POST(req: Request) {
     try {
         const { question, includeHausa } = await req.json();
-        const supabase = createClient();
+        const supabase = await createClient();
 
         // 1. Check Auth
         const { data: { user } } = await supabase.auth.getUser();

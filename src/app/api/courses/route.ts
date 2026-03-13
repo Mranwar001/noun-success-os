@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 // GET all courses for the logged-in user
 export async function GET() {
     try {
-        const supabase = createClient();
+        const supabase = await createClient();
         const { data: { user } } = await supabase.auth.getUser();
 
         if (!user) {
@@ -28,7 +28,7 @@ export async function GET() {
 // POST a new course
 export async function POST(req: Request) {
     try {
-        const supabase = createClient();
+        const supabase = await createClient();
         const { data: { user } } = await supabase.auth.getUser();
 
         if (!user) {
